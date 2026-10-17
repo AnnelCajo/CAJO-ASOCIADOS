@@ -1,0 +1,1740 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CAJO & ASOCIADOS | Estudio Jurídico</title>
+
+  <!-- FUENTES DE LUJO Y ALTA LEGIBILIDAD -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800;900&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- LIBRERÍA DE ÍCONOS VECTORIALES -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- LIBRERÍAS JSPDF PARA REPORTES -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+
+  <style>
+    /* PALETA LUJO MARINO COSTERO & DORADO ARENA */
+    :root {
+      --bg-main: #f0f6f9;               
+      --sidebar-dark: #071e3d;           
+      --sidebar-card: #0b2b52;           
+      --accent-gold: #e6c594;            
+      --text-main: #0f172a;              
+      --text-muted: #475569;
+      --card-white: #ffffff;
+      --border-soft: #cbd5e1;
+
+      --font-body: 'Montserrat', 'Segoe UI', system-ui, sans-serif;
+      --font-title: 'Cinzel', serif;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      font-family: var(--font-body);
+      font-size: 1.05rem;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      color: var(--text-main);
+      background-color: var(--bg-main);
+    }
+
+    /* PANTALLAS DE BIENVENIDA AESTHETIC & GLASSMORPHISM */
+    .welcome-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: radial-gradient(circle at 50% 30%, #0e376a 0%, #051329 100%);
+      color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      text-align: center;
+      padding: 20px;
+      animation: fadeIn 0.6s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.98); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .welcome-card-aesthetic {
+      background: rgba(11, 43, 82, 0.45);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(230, 197, 148, 0.35);
+      border-radius: 28px;
+      padding: 55px 45px;
+      max-width: 680px;
+      width: 100%;
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5), inset 0 0 15px rgba(230, 197, 148, 0.1);
+      position: relative;
+    }
+
+    .welcome-logo-icon {
+      width: 85px;
+      height: 85px;
+      background: linear-gradient(135deg, #0b2b52 0%, #071e3d 100%);
+      border: 2px solid var(--accent-gold);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 25px auto;
+      color: var(--accent-gold);
+      box-shadow: 0 0 25px rgba(230, 197, 148, 0.25);
+    }
+
+    .saludo-sub {
+      font-family: var(--font-title);
+      font-size: 1.15rem;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--accent-gold);
+      margin-bottom: 10px;
+      opacity: 0.9;
+    }
+
+    .saludo-title {
+      font-family: var(--font-title);
+      font-size: 2.3rem;
+      font-weight: 800;
+      color: #ffffff;
+      margin: 0 0 12px 0;
+      letter-spacing: 1.5px;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    }
+
+    .welcome-date-badge {
+      display: inline-block;
+      background: rgba(230, 197, 148, 0.12);
+      border: 1px solid rgba(230, 197, 148, 0.3);
+      padding: 8px 20px;
+      border-radius: 20px;
+      font-size: 0.95rem;
+      color: #e2e8f0;
+      margin-bottom: 35px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    /* CAJA DE LA FRASE CON ESTILO MINIMALISTA, LÍNEAS FINAS Y DORADO LUJO */
+    .frase-dia-box {
+      background: rgba(7, 30, 61, 0.55);
+      border: 1px solid rgba(230, 197, 148, 0.35);
+      padding: 28px 30px;
+      border-radius: 20px;
+      margin: 25px 0 35px 0;
+      box-shadow: inset 0 0 20px rgba(0,0,0,0.25), 0 10px 25px rgba(0,0,0,0.2);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+    }
+
+    .frase-icon-wrapper {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: rgba(230, 197, 148, 0.1);
+      border: 1px solid var(--accent-gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent-gold);
+      box-shadow: 0 0 12px rgba(230, 197, 148, 0.2);
+    }
+
+    .frase-texto-aesthetic {
+      font-family: var(--font-body);
+      font-size: 1.05rem;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      line-height: 1.65;
+      color: #f8fafc;
+      margin: 0;
+      max-width: 580px;
+    }
+
+    .btn-welcome-next {
+      font-family: var(--font-body);
+      background: linear-gradient(135deg, #e6c594 0%, #c49c63 100%);
+      color: #071e3d;
+      border: none;
+      padding: 16px 40px;
+      font-size: 1rem;
+      font-weight: 800;
+      border-radius: 14px;
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      transition: all 0.3s ease;
+      box-shadow: 0 10px 25px rgba(230, 197, 148, 0.3);
+    }
+
+    .btn-welcome-next:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 30px rgba(230, 197, 148, 0.45);
+      background: #ffffff;
+      color: #071e3d;
+    }
+
+    .welcome-options-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 16px;
+      margin-top: 25px;
+    }
+
+    .welcome-opt-card {
+      background: rgba(7, 30, 61, 0.6);
+      border: 1px solid rgba(230, 197, 148, 0.25);
+      color: #ffffff;
+      padding: 18px 22px;
+      border-radius: 16px;
+      font-size: 0.98rem;
+      font-weight: 700;
+      font-family: var(--font-body);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      transition: all 0.3s ease;
+      text-align: left;
+    }
+
+    .welcome-opt-card i {
+      color: var(--accent-gold);
+      transition: transform 0.3s ease;
+    }
+
+    .welcome-opt-card:hover {
+      background: var(--accent-gold);
+      color: #071e3d;
+      border-color: var(--accent-gold);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 25px rgba(230, 197, 148, 0.35);
+    }
+
+    .welcome-opt-card:hover i {
+      color: #071e3d;
+      transform: scale(1.15);
+    }
+
+    /* CONTENEDOR PRINCIPAL */
+    .dashboard-layout {
+      display: flex;
+      width: 100%;
+      min-height: 100vh;
+    }
+
+    /* SIDEBAR LATERAL NAVEGACIÓN MARINA */
+    .sidebar {
+      width: 290px;
+      background: var(--sidebar-dark);
+      color: #ffffff;
+      padding: 30px 20px;
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+      box-shadow: 4px 0 20px rgba(0,0,0,0.15);
+    }
+
+    .brand-box {
+      text-align: center;
+      padding-bottom: 25px;
+      border-bottom: 1px solid rgba(230, 197, 148, 0.25);
+      margin-bottom: 25px;
+    }
+
+    .brand-logo-icon {
+      width: 58px;
+      height: 58px;
+      background: var(--sidebar-card);
+      border: 1.5px solid var(--accent-gold);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 12px auto;
+      color: var(--accent-gold);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+
+    .brand-box h1 {
+      font-family: var(--font-title);
+      font-size: 1.35rem;
+      font-weight: 800;
+      letter-spacing: 2.5px;
+      margin: 0;
+      color: #ffffff;
+      text-transform: uppercase;
+    }
+
+    .brand-box h1 span {
+      color: var(--accent-gold);
+      font-weight: 900;
+      font-style: italic;
+    }
+
+    .brand-subtitle {
+      font-family: var(--font-title);
+      font-size: 0.78rem;
+      letter-spacing: 3.5px;
+      text-transform: uppercase;
+      color: var(--accent-gold);
+      margin-top: 6px;
+      opacity: 0.9;
+    }
+
+    .nav-menu {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .nav-btn {
+      background: transparent;
+      color: #d1e0f0;
+      border: 1px solid transparent;
+      padding: 14px 16px;
+      border-radius: 10px;
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      transition: all 0.25s ease;
+      text-align: left;
+    }
+
+    .nav-btn:hover, .nav-btn.active {
+      background: var(--sidebar-card);
+      color: var(--accent-gold);
+      border-color: rgba(230, 197, 148, 0.4);
+    }
+
+    .sidebar-footer {
+      margin-top: auto;
+      padding-top: 15px;
+      border-top: 1px solid rgba(230, 197, 148, 0.2);
+      font-size: 0.82rem;
+      color: #a4b8d1;
+    }
+
+    .sidebar-footer strong {
+      color: var(--accent-gold);
+      font-weight: 800;
+    }
+
+    .author-badge-mini {
+      margin-top: 10px;
+      padding: 8px 10px;
+      background: rgba(230, 197, 148, 0.05);
+      border: 1px solid rgba(230, 197, 148, 0.2);
+      border-radius: 8px;
+      font-size: 0.75rem;
+      color: #cbd5e1;
+      line-height: 1.35;
+    }
+
+    .author-badge-mini strong {
+      color: var(--accent-gold);
+      font-size: 0.78rem;
+    }
+
+    .copyright-tag {
+      margin-top: 4px;
+      font-size: 0.68rem;
+      color: #94a3b8;
+      font-style: italic;
+    }
+
+    /* CONTENIDO PRINCIPAL */
+    .main-content {
+      flex: 1;
+      padding: 35px 40px;
+      overflow-y: auto;
+    }
+
+    .header-panel {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+      padding-bottom: 15px;
+      border-bottom: 2px solid var(--border-soft);
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .header-panel h2 {
+      font-family: var(--font-title);
+      margin: 0;
+      font-size: 1.65rem;
+      color: var(--sidebar-dark);
+      font-weight: 800;
+      letter-spacing: 1.5px;
+    }
+
+    .doctor-badge {
+      background: var(--card-white);
+      border: 1px solid var(--border-soft);
+      padding: 8px 18px;
+      border-radius: 20px;
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: var(--sidebar-dark);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+    }
+
+    /* TARJETAS DE MÉTRICAS / KPIS */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    .kpi-card {
+      background: var(--card-white);
+      border: 1px solid var(--border-soft);
+      border-radius: 14px;
+      padding: 20px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+    }
+
+    .kpi-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .kpi-title {
+      font-family: var(--font-body);
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      font-weight: 800;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+    }
+
+    .kpi-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      background: #f0f6f9;
+      color: var(--sidebar-dark);
+      border: 1px solid var(--border-soft);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .kpi-val {
+      font-size: 1.65rem;
+      font-weight: 800;
+      color: var(--sidebar-dark);
+    }
+
+    /* CARDS & FORMULARIOS */
+    .content-card {
+      background: var(--card-white);
+      border: 1px solid var(--border-soft);
+      border-radius: 16px;
+      padding: 28px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 18px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .form-group label {
+      font-weight: 800;
+      margin-bottom: 6px;
+      font-size: 0.85rem;
+      color: var(--sidebar-dark);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .form-group label span.opt {
+      font-weight: normal;
+      color: #64748b;
+      text-transform: none;
+      font-size: 0.85rem;
+    }
+
+    .form-group input, .form-group select, .form-group textarea {
+      padding: 12px;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-family: var(--font-body);
+      font-weight: 700;
+      background: #fcfdfe;
+      color: var(--text-main);
+    }
+
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+      outline: none;
+      border-color: var(--sidebar-dark);
+      box-shadow: 0 0 0 3px rgba(7, 30, 61, 0.15);
+    }
+
+    .btn-submit {
+      font-family: var(--font-body);
+      background: linear-gradient(135deg, var(--sidebar-dark) 0%, var(--sidebar-card) 100%);
+      color: var(--accent-gold);
+      border: 1.5px solid var(--accent-gold);
+      padding: 14px 24px;
+      font-size: 0.95rem;
+      font-weight: 800;
+      border-radius: 8px;
+      cursor: pointer;
+      text-transform: uppercase;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+      letter-spacing: 1px;
+    }
+
+    .btn-submit:hover {
+      background: var(--accent-gold);
+      color: var(--sidebar-dark);
+      border-color: var(--accent-gold);
+    }
+
+    .btn-pdf {
+      font-family: var(--font-body);
+      background: var(--sidebar-dark);
+      color: var(--accent-gold);
+      border: 1px solid var(--accent-gold);
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: 800;
+      font-size: 0.85rem;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-pdf:hover {
+      background: var(--accent-gold);
+      color: var(--sidebar-dark);
+    }
+
+    /* TABLAS Y SELECTOR DE ESTADO DIRECTO */
+    .table-wrap {
+      overflow-x: auto;
+      border-radius: 10px;
+      border: 1px solid var(--border-soft);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 1rem;
+      text-align: left;
+    }
+
+    th {
+      font-family: var(--font-title);
+      background-color: var(--sidebar-dark);
+      color: var(--accent-gold);
+      padding: 14px;
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: 0.82rem;
+      letter-spacing: 1.2px;
+    }
+
+    td {
+      padding: 14px;
+      border-bottom: 1px solid #e2e8f0;
+      color: var(--text-main);
+      vertical-align: middle;
+      font-weight: 700;
+    }
+
+    tr:hover { background-color: #f0f7fc; }
+
+    /* ESTILO DE FILA DE TOTALES SUMADOS AL PIE DE LA TABLA */
+    tfoot tr {
+      background-color: #071e3d;
+      color: #ffffff;
+      font-weight: 900;
+      font-size: 1rem;
+    }
+
+    tfoot td {
+      border-top: 2px solid var(--accent-gold);
+      border-bottom: none;
+      color: #ffffff;
+      padding: 16px 14px;
+    }
+
+    .nota-caso-box {
+      font-size: 1.05rem;
+      color: #0f172a;               
+      font-weight: 800;             
+      min-width: 250px;
+      line-height: 1.4;
+      white-space: pre-wrap;        
+      word-break: break-word;
+      font-style: normal;           
+      background: #f8fafc;
+      padding: 8px 12px;
+      border-radius: 6px;
+      border-left: 3px solid var(--sidebar-dark);
+    }
+
+    .select-estado-directo {
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-weight: 800;
+      font-size: 0.9rem;
+      font-family: var(--font-body);
+      cursor: pointer;
+      border: 1.5px solid #cbd5e1;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+
+    .select-estado-directo.st-iniciado { background: #fef3c7; color: #92400e; border-color: #f59e0b; }
+    .select-estado-directo.st-proceso { background: #e0f2fe; color: #0369a1; border-color: #0284c7; }
+    .select-estado-directo.st-finalizado { background: #dcfce7; color: #15803d; border-color: #22c55e; }
+    .select-estado-directo.st-cobrado { background: #f3e8ff; color: #6b21a8; border-color: #a855f7; }
+
+    .badge-deuda {
+      background: #fee2e2;
+      color: #991b1b;
+      padding: 6px 12px;
+      border-radius: 12px;
+      font-weight: 800;
+      font-size: 0.82rem;
+    }
+
+    .badge-pagado {
+      background: #e6fffa;
+      color: #047857;
+      padding: 6px 12px;
+      border-radius: 12px;
+      font-weight: 800;
+      font-size: 0.82rem;
+    }
+
+    .btn-edit-case {
+      background: #fef3c7;
+      color: #92400e;
+      border: 1px solid #f59e0b;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .btn-edit-case:hover {
+      background: #f59e0b;
+      color: white;
+    }
+
+    .btn-delete-case {
+      background: #fee2e2;
+      color: #991b1b;
+      border: 1px solid #f87171;
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 800;
+      cursor: pointer;
+      margin-left: 4px;
+    }
+
+    /* MODAL DE EDICIÓN FLOTANTE */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(7, 30, 61, 0.7);
+      backdrop-filter: blur(4px);
+      z-index: 999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal-box {
+      background: #ffffff;
+      border-radius: 16px;
+      max-width: 750px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 30px;
+      border: 2px solid var(--sidebar-dark);
+      box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border-soft);
+    }
+
+    .modal-header h3 {
+      font-family: var(--font-title);
+      margin: 0;
+      color: var(--sidebar-dark);
+      font-size: 1.3rem;
+    }
+
+    .btn-close-modal {
+      background: transparent;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--text-muted);
+    }
+
+    @media (max-width: 900px) {
+      .dashboard-layout { flex-direction: column; }
+      .sidebar { width: 100%; }
+      .main-content { padding: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- PANTALLA 1: SALUDO DE BIENVENIDA CON HORA Y FECHA -->
+  <div id="welcomeScreen1" class="welcome-overlay">
+    <div class="welcome-card-aesthetic">
+      <div class="welcome-logo-icon">
+        <i data-lucide="scale" size="44"></i>
+      </div>
+      <div class="saludo-sub" id="txtSaludoHoraSub">¡BUENOS DÍAS!</div>
+      <h1 class="saludo-title">Dr. Joel Cajo Hostia</h1>
+      <div class="welcome-date-badge" id="txtFechaHoy">Cargando fecha del día...</div>
+      
+      <div>
+        <button class="btn-welcome-next" onclick="irAWelcomeScreen2()">
+          <span>Continuar</span>
+          <i data-lucide="arrow-right" size="20"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PANTALLA 2: FRASE MOTIVADORA E INSPIRADORA DEL DÍA -->
+  <div id="welcomeScreen2" class="welcome-overlay" style="display: none;">
+    <div class="welcome-card-aesthetic">
+      <div class="saludo-sub">PENSAMIENTO DEL DÍA</div>
+      <h1 class="saludo-title" style="font-size: 1.8rem; margin-bottom: 15px;">Inspiración para hoy</h1>
+      
+      <div class="frase-dia-box">
+        <div class="frase-icon-wrapper" id="boxFraseIcon">
+          <i data-lucide="sparkles" size="22"></i>
+        </div>
+        <p class="frase-texto-aesthetic" id="txtFraseDia">
+          "La justicia es la constante y firme voluntad de dar a cada uno lo que le corresponde."
+        </p>
+      </div>
+
+      <div>
+        <button class="btn-welcome-next" onclick="irAWelcomeScreen3()">
+          <span>Ver Opciones de Acceso</span>
+          <i data-lucide="arrow-right" size="20"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PANTALLA 3: SELECCIÓN DESPLEGABLE DE ACCIONES DIRECTAS -->
+  <div id="welcomeScreen3" class="welcome-overlay" style="display: none;">
+    <div class="welcome-card-aesthetic" style="max-width: 720px;">
+      <div class="saludo-sub">ESTUDIO JURÍDICO</div>
+      <h1 class="saludo-title" style="font-size: 1.9rem; margin-bottom: 10px;">¿Qué deseas hacer hoy?</h1>
+      <p style="color:#cbd5e1; margin-bottom:20px; font-weight:600; font-size:0.95rem;">
+        Selecciona la opción a la que deseas acceder directamente:
+      </p>
+      
+      <div class="welcome-options-grid">
+        <button class="welcome-opt-card" onclick="ingresarDirecto('sec1', 'btnNav1')">
+          <i data-lucide="folder-plus" size="22"></i>
+          <span>Nuevo Cliente / Caso</span>
+        </button>
+
+        <button class="welcome-opt-card" onclick="ingresarDirecto('sec2', 'btnNav2')">
+          <i data-lucide="receipt" size="22"></i>
+          <span>Abonar Honorarios</span>
+        </button>
+
+        <button class="welcome-opt-card" onclick="ingresarDirecto('sec3', 'btnNav3')">
+          <i data-lucide="folder-open" size="22"></i>
+          <span>Control de Procesos</span>
+        </button>
+
+        <button class="welcome-opt-card" onclick="ingresarDirecto('sec5', 'btnNav5')">
+          <i data-lucide="circle-dollar-sign" size="22"></i>
+          <span>Control de Cobros</span>
+        </button>
+
+        <button class="welcome-opt-card" onclick="ingresarDirecto('sec4', 'btnNav4')" style="grid-column: 1 / -1; justify-content: center;">
+          <i data-lucide="landmark" size="22"></i>
+          <span>Agenda de Audiencias & Citas</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SISTEMA PRINCIPAL -->
+  <div class="dashboard-layout">
+    
+    <!-- BARRA LATERAL -->
+    <div class="sidebar">
+      <div class="brand-box">
+        <div class="brand-logo-icon">
+          <i data-lucide="scale" size="28"></i>
+        </div>
+        <h1>CAJO <span>&</span> ASOCIADOS</h1>
+        <div class="brand-subtitle">Estudio Jurídico</div>
+      </div>
+
+      <div class="nav-menu">
+        <button id="btnNav1" class="nav-btn active" onclick="mostrarSeccion('sec1', this)">
+          <i data-lucide="folder-plus" size="18"></i>
+          <span>Nuevo Cliente / Caso</span>
+        </button>
+
+        <button id="btnNav2" class="nav-btn" onclick="mostrarSeccion('sec2', this)">
+          <i data-lucide="receipt" size="18"></i>
+          <span>Abonar Honorarios</span>
+        </button>
+
+        <button id="btnNav3" class="nav-btn" onclick="mostrarSeccion('sec3', this)">
+          <i data-lucide="folder-open" size="18"></i>
+          <span>Control de Procesos</span>
+        </button>
+
+        <button id="btnNav5" class="nav-btn" onclick="mostrarSeccion('sec5', this)">
+          <i data-lucide="circle-dollar-sign" size="18"></i>
+          <span>Control de Cobros</span>
+        </button>
+
+        <button id="btnNav4" class="nav-btn" onclick="mostrarSeccion('sec4', this)">
+          <i data-lucide="landmark" size="18"></i>
+          <span>Audiencias & Citas</span>
+        </button>
+      </div>
+
+      <div class="sidebar-footer">
+        <div><strong>Dr. Joel Cajo Hostia</strong></div>
+        <div style="font-size:0.78rem;">Tel: (+51) 997 - 316 - 282</div>
+        
+        <div class="author-badge-mini">
+          Desarrollado por <strong>Annel Cajo Vargas</strong>
+          <div class="copyright-tag">© Todos los derechos reservados.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PANEL PRINCIPAL -->
+    <div class="main-content">
+      
+      <div class="header-panel">
+        <div>
+          <h2 id="panelTitle">Panel de Control General</h2>
+        </div>
+
+        <div class="doctor-badge">
+          <i data-lucide="user-check" size="16" style="color:var(--sidebar-dark);"></i>
+          <span>Dr. Joel Cajo Hostia</span>
+        </div>
+      </div>
+
+      <!-- SECCIÓN 1: NUEVO EXPEDIENTE -->
+      <div id="sec1" class="seccion-content">
+        <div class="content-card">
+          <h3 style="margin-top:0; color:var(--sidebar-dark); font-family:var(--font-title);">Ingreso Inicial de Cliente o Expediente</h3>
+          <p style="color:var(--text-muted); font-size:0.92rem; margin-bottom:20px;">
+            💡 <strong>Nota:</strong> Si recién inicias el proceso y no tienes expediente o juzgado, puedes dejarlos en blanco.
+          </p>
+
+          <form id="expedienteForm">
+            <div class="form-grid">
+              <div class="form-group">
+                <label>Nombre del Cliente *</label>
+                <input type="text" id="expCliente" placeholder="Ej. Juan Pérez Gómez" required>
+              </div>
+
+              <div class="form-group">
+                <label>Tipo de Proceso *</label>
+                <select id="expTipo" required>
+                  <option value="Derecho Civil">Derecho Civil</option>
+                  <option value="Derecho Penal">Derecho Penal</option>
+                  <option value="Asesoría Legal Corporativa">Asesoría Legal Corporativa</option>
+                  <option value="Familia">Familia</option>
+                  <option value="Laboral">Laboral</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label>N° Expediente / Carpeta Fiscal <span class="opt">(Opcional)</span></label>
+                <input type="text" id="expNumero" placeholder="Ej. En trámite / 01420-2026">
+              </div>
+
+              <div class="form-group">
+                <label>DNI / RUC <span class="opt">(Opcional)</span></label>
+                <input type="text" id="expDni" placeholder="Ej. 45892011">
+              </div>
+
+              <div class="form-group">
+                <label>Juzgado / Fiscalía <span class="opt">(Opcional)</span></label>
+                <input type="text" id="expJuzgado" placeholder="Ej. Por asignar / 3° Juzgado">
+              </div>
+
+              <div class="form-group">
+                <label>Estado Inicial del Proceso</label>
+                <select id="expEstadoProceso">
+                  <option value="Iniciado">Iniciado</option>
+                  <option value="En Proceso" selected>En Proceso</option>
+                  <option value="Finalizado">Finalizado</option>
+                  <option value="Cobrado">Cobrado</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label>Honorario Pactado Total (S/.) <span class="opt">(Opcional)</span></label>
+                <input type="number" step="0.01" id="expHonorarioTotal" placeholder="0.00" value="0">
+              </div>
+
+              <div class="form-group">
+                <label>Adelanto Inicial Recibido (S/.) <span class="opt">(Opcional)</span></label>
+                <input type="number" step="0.01" id="expAdelantoInicial" placeholder="0.00" value="0">
+              </div>
+
+              <div class="form-group" style="grid-column: 1 / -1;">
+                <label>Detalles del Delito / Notas del Caso</label>
+                <textarea id="expResumen" rows="3" placeholder="Ingresa los detalles del delito, síntesis del petitorio o anotaciones del caso..."></textarea>
+              </div>
+            </div>
+
+            <button type="submit" class="btn-submit" style="width: 100%; margin-top: 20px;">
+              <i data-lucide="file-check-2" size="18"></i> Registrar Caso en el Sistema
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <!-- SECCIÓN 2: ABONAR HONORARIOS -->
+      <div id="sec2" class="seccion-content" style="display:none;">
+        <div class="content-card">
+          <h3 style="margin-top:0; color:var(--sidebar-dark); font-family:var(--font-title);">Registro de Abonos y Adelantos de Clientes</h3>
+          <form id="pagoForm">
+            <div class="form-grid">
+              <div class="form-group" style="grid-column: 1 / -1;">
+                <label>Selecciona el Cliente / Expediente</label>
+                <select id="pagoSelectExpediente" required onchange="calcularDeudaCliente()">
+                  <option value="">-- Selecciona un caso activo --</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label>Honorario Total Pactado</label>
+                <input type="text" id="pagoMontoPactado" readonly style="background:#f0f6f9; font-weight:bold;">
+              </div>
+
+              <div class="form-group">
+                <label>Monto Pagado a la Fecha</label>
+                <input type="text" id="pagoMontoAbonado" readonly style="background:#f0f6f9; font-weight:bold; color:#047857;">
+              </div>
+
+              <div class="form-group">
+                <label>Saldo Pendiente por Cobrar</label>
+                <input type="text" id="pagoSaldoPendiente" readonly style="background:#fef2f2; font-weight:bold; color:#dc2626;">
+              </div>
+
+              <div class="form-group">
+                <label>Monto del Nuevo Abono (S/.)</label>
+                <input type="number" step="0.01" id="pagoMontoNuevo" placeholder="200.00" required>
+              </div>
+
+              <div class="form-group">
+                <label>Medio de Pago</label>
+                <select id="pagoMedio">
+                  <option value="Yape / Plin">Yape / Plin</option>
+                  <option value="Transferencia Bancaria">Transferencia Bancaria</option>
+                  <option value="Efectivo">Efectivo</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label>Fecha de Abono</label>
+                <input type="date" id="pagoFecha" required>
+              </div>
+            </div>
+
+            <button type="submit" class="btn-submit" style="width: 100%; margin-top: 20px;">
+              <i data-lucide="circle-dollar-sign" size="18"></i> Registrar Pago
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <!-- SECCIÓN 3: CONTROL DE PROCESOS -->
+      <div id="sec3" class="seccion-content" style="display:none;">
+        <div class="content-card">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; flex-wrap:wrap; gap:10px;">
+            <h3 style="margin:0; color:var(--sidebar-dark); font-family:var(--font-title);">Listado de Casos, Juzgados y Estado del Proceso</h3>
+            
+            <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
+              <input type="text" id="buscarProcesos" placeholder="🔍 Buscar por cliente, delito o expediente..." onkeyup="filtrarProcesos()" style="padding:8px 14px; border-radius:8px; border:1px solid #ccc; font-size:0.92rem; font-family:var(--font-body); font-weight:600;">
+              <button onclick="descargarReporteProcesosPDF()" class="btn-pdf">
+                <i data-lucide="file-down" size="16"></i> Descargar PDF
+              </button>
+            </div>
+          </div>
+
+          <div class="table-wrap">
+            <table id="tablaProcesosReporte">
+              <thead>
+                <tr>
+                  <th style="width: 50px; text-align: center;">N°</th>
+                  <th>N° Expediente</th>
+                  <th>Cliente</th>
+                  <th>Materia</th>
+                  <th>Juzgado / Fiscalía</th>
+                  <th>Detalles del Delito / Notas</th>
+                  <th style="text-align: center;">Estado del Proceso</th>
+                  <th style="text-align: center;" class="no-print">Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="tablaProcesosCuerpo">
+                <tr><td colspan="8" style="text-align: center;">No hay casos registrados.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECCIÓN 5: CONTROL DE COBROS Y FINANZAS -->
+      <div id="sec5" class="seccion-content" style="display:none;">
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <div class="kpi-top"><span class="kpi-title">Honorarios Pactados</span><div class="kpi-icon"><i data-lucide="scroll" size="18"></i></div></div>
+            <div class="kpi-val" id="kpiPactado">S/ 0.00</div>
+          </div>
+
+          <div class="kpi-card">
+            <div class="kpi-top"><span class="kpi-title">Recaudado</span><div class="kpi-icon"><i data-lucide="check-circle" size="18"></i></div></div>
+            <div class="kpi-val" id="kpiRecaudado" style="color:#047857;">S/ 0.00</div>
+          </div>
+
+          <div class="kpi-card">
+            <div class="kpi-top"><span class="kpi-title">Pendiente Cobro</span><div class="kpi-icon"><i data-lucide="hourglass" size="18"></i></div></div>
+            <div class="kpi-val" id="kpiPendiente" style="color:#dc2626;">S/ 0.00</div>
+          </div>
+
+          <div class="kpi-card">
+            <div class="kpi-top"><span class="kpi-title">Casos Activos</span><div class="kpi-icon"><i data-lucide="briefcase" size="18"></i></div></div>
+            <div class="kpi-val" id="kpiCasos">0</div>
+          </div>
+        </div>
+
+        <div class="content-card">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; flex-wrap:wrap; gap:10px;">
+            <h3 style="margin:0; color:var(--sidebar-dark); font-family:var(--font-title);">Estado Financiero y Saldos de Clientes</h3>
+            
+            <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
+              <input type="text" id="buscarCobros" placeholder="🔍 Buscar por cliente o expediente..." onkeyup="filtrarCobros()" style="padding:8px 14px; border-radius:8px; border:1px solid #ccc; font-size:0.92rem; font-family:var(--font-body); font-weight:600;">
+              <button onclick="descargarReporteCobrosPDF()" class="btn-pdf">
+                <i data-lucide="file-down" size="16"></i> Descargar PDF Finanzas
+              </button>
+            </div>
+          </div>
+
+          <div class="table-wrap">
+            <table id="tablaCobrosReporte">
+              <thead>
+                <tr>
+                  <th style="width: 50px; text-align: center;">N°</th>
+                  <th>N° Expediente</th>
+                  <th>Cliente</th>
+                  <th>Materia</th>
+                  <th style="text-align: right;">Pactado</th>
+                  <th style="text-align: right;">Pagado</th>
+                  <th style="text-align: right;">Saldo Deuda</th>
+                  <th style="text-align: center;">Estado Pago</th>
+                  <th style="text-align: center;" class="no-print">Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="tablaCobrosCuerpo">
+                <tr><td colspan="9" style="text-align: center;">No hay casos registrados.</td></tr>
+              </tbody>
+              <tfoot id="tablaCobrosPie">
+                <!-- Se llena dinámicamente con la suma total -->
+              </tfoot>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECCIÓN 4: AUDIENCIAS -->
+      <div id="sec4" class="seccion-content" style="display:none;">
+        <div class="content-card" style="margin-bottom:25px;">
+          <h3 style="margin-top:0; color:var(--sidebar-dark); font-family:var(--font-title);">Programar Nueva Audiencia Virtual / Cita</h3>
+          <form id="audienciaForm">
+            <div class="form-grid">
+              
+              <div class="form-group">
+                <label>Selecciona el Cliente / Expediente *</label>
+                <select id="audSelectExpediente" required>
+                  <option value="">-- Selecciona un cliente registrado --</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label>Fecha de Audiencia *</label>
+                <input type="date" id="audFecha" required>
+              </div>
+
+              <div class="form-group">
+                <label>Hora *</label>
+                <input type="time" id="audHora" required>
+              </div>
+
+              <div class="form-group">
+                <label>Tipo de Evento</label>
+                <input type="text" id="audTipo" placeholder="Ej. Audiencia de Pruebas">
+              </div>
+
+              <div class="form-group" style="grid-column: 1 / -1;">
+                <label>Enlace de Google Meet / Zoom <span class="opt">(Opcional)</span></label>
+                <input type="url" id="audLink" placeholder="https://meet.google.com/abc-defg-hij">
+              </div>
+            </div>
+
+            <button type="submit" class="btn-submit" style="width: 100%; margin-top: 15px;">
+              <i data-lucide="video" size="16"></i> Agendar en Calendario
+            </button>
+          </form>
+        </div>
+
+        <div class="content-card">
+          <h3 style="margin-top:0; color:var(--sidebar-dark); font-family:var(--font-title);">Agenda de Audiencias Virtuales</h3>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th style="width: 50px; text-align: center;">N°</th>
+                  <th>Fecha & Hora</th>
+                  <th>Caso / Cliente</th>
+                  <th>Tipo de Audiencia</th>
+                  <th style="text-align: center;">Acceso Directo</th>
+                  <th style="text-align: center;" class="no-print">Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="tablaAudienciasCuerpo">
+                <tr><td colspan="6" style="text-align: center;">No hay audiencias.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- MODAL FLOTANTE PARA EDITAR DATOS -->
+  <div id="editModal" class="modal-overlay">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3>✏️ Modificar o Completar Datos del Caso</h3>
+        <button class="btn-close-modal" onclick="cerrarModal()">&times;</button>
+      </div>
+
+      <form id="editForm">
+        <input type="hidden" id="editId">
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Nombre del Cliente</label>
+            <input type="text" id="editCliente" required>
+          </div>
+
+          <div class="form-group">
+            <label>N° Expediente / Carpeta Fiscal</label>
+            <input type="text" id="editNumero">
+          </div>
+
+          <div class="form-group">
+            <label>DNI / RUC</label>
+            <input type="text" id="editDni">
+          </div>
+
+          <div class="form-group">
+            <label>Materia / Especialidad</label>
+            <select id="editTipo" required>
+              <option value="Derecho Civil">Derecho Civil</option>
+              <option value="Derecho Penal">Derecho Penal</option>
+              <option value="Asesoría Legal Corporativa">Asesoría Legal Corporativa</option>
+              <option value="Familia">Familia</option>
+              <option value="Laboral">Laboral</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Juzgado / Fiscalía</label>
+            <input type="text" id="editJuzgado">
+          </div>
+
+          <div class="form-group">
+            <label>Estado del Proceso</label>
+            <select id="editEstadoProceso">
+              <option value="Iniciado">Iniciado</option>
+              <option value="En Proceso">En Proceso</option>
+              <option value="Finalizado">Finalizado</option>
+              <option value="Cobrado">Cobrado</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Honorario Pactado Total (S/.)</label>
+            <input type="number" step="0.01" id="editTotal" required>
+          </div>
+
+          <div class="form-group">
+            <label>Monto Pagado Acumulado (S/.)</label>
+            <input type="number" step="0.01" id="editAbonado" required>
+          </div>
+
+          <div class="form-group" style="grid-column: 1 / -1;">
+            <label>Detalles del Delito / Notas del Caso</label>
+            <textarea id="editResumen" rows="3"></textarea>
+          </div>
+        </div>
+
+        <div style="display:flex; gap:10px; margin-top:20px;">
+          <button type="submit" class="btn-submit" style="flex:1;">
+            <i data-lucide="check" size="18"></i> Guardar Cambios
+          </button>
+          <button type="button" onclick="cerrarModal()" style="background:#e2e8f0; border:none; padding:12px 20px; border-radius:8px; font-weight:bold; cursor:pointer;">
+            Cancelar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    let expedientes = JSON.parse(localStorage.getItem('cajo_expedientes')) || [];
+    let audiencias = JSON.parse(localStorage.getItem('cajo_audiencias')) || [];
+
+    // FRASES DIARIAS CON ÍCONOS VECTORIALES AESTHETIC DE LUCIDE (0: Domingo a 6: Sábado)
+    const frasesPorDia = [
+      {
+        icon: 'sparkles',
+        texto: '"El descanso de hoy es la claridad y el impulso para triunfar mañana. ¡Feliz domingo, Doctor!"'
+      },
+      {
+        icon: 'scale',
+        texto: '"Un nuevo comienzo de semana: la oportunidad perfecta para hacer valer la justicia y el derecho."'
+      },
+      {
+        icon: 'trophy',
+        texto: '"La perseverancia, el rigor y la estrategia convierten los grandes desafíos legales en victorias."'
+      },
+      {
+        icon: 'lightbulb',
+        texto: '"La verdad es la mejor estrategia. Con sabiduría e integridad cada causa encuentra su camino."'
+      },
+      {
+        icon: 'shield-check',
+        texto: '"El derecho es el escudo del ciudadano y la voz del jurista es su mayor fortaleza."'
+      },
+      {
+        icon: 'award',
+        texto: '"Un trabajo impecable construido día a día consolida una reputación profesional intachable."'
+      },
+      {
+        icon: 'trending-up',
+        texto: '"Semana superada con éxito y profesionalismo. ¡Que tenga un excelente fin de semana!"'
+      }
+    ];
+
+    window.onload = function() {
+      configurarBienvenida();
+      actualizarData();
+      lucide.createIcons();
+    };
+
+    function configurarBienvenida() {
+      const ahora = new Date();
+      const hora = ahora.getHours();
+      const diaSemana = ahora.getDay();
+
+      let saludo = "¡BUENOS DÍAS!";
+      if (hora >= 12 && hora < 19) {
+        saludo = "¡BUENAS TARDES!";
+      } else if (hora >= 19 || hora < 6) {
+        saludo = "¡BUENAS NOCHES!";
+      }
+
+      document.getElementById('txtSaludoHoraSub').innerText = saludo;
+
+      const opcionesFecha = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+      let fechaTexto = ahora.toLocaleDateString('es-ES', opcionesFecha);
+      fechaTexto = fechaTexto.charAt(0).toUpperCase() + fechaTexto.slice(1);
+
+      document.getElementById('txtFechaHoy').innerText = fechaTexto;
+
+      // Asigna el texto e ícono vectorial refinado según el día
+      const configDia = frasesPorDia[diaSemana];
+      document.getElementById('txtFraseDia').innerText = configDia.texto;
+      document.getElementById('boxFraseIcon').innerHTML = `<i data-lucide="${configDia.icon}" size="22"></i>`;
+    }
+
+    function irAWelcomeScreen2() {
+      document.getElementById('welcomeScreen1').style.display = 'none';
+      document.getElementById('welcomeScreen2').style.display = 'flex';
+      setTimeout(() => lucide.createIcons(), 50);
+    }
+
+    function irAWelcomeScreen3() {
+      document.getElementById('welcomeScreen2').style.display = 'none';
+      document.getElementById('welcomeScreen3').style.display = 'flex';
+      setTimeout(() => lucide.createIcons(), 50);
+    }
+
+    function ingresarDirecto(secId, btnNavId) {
+      document.getElementById('welcomeScreen3').style.display = 'none';
+      const btnElem = document.getElementById(btnNavId);
+      mostrarSeccion(secId, btnElem);
+    }
+
+    function mostrarSeccion(secId, btnElem) {
+      document.querySelectorAll('.seccion-content').forEach(s => s.style.display = 'none');
+      document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+
+      document.getElementById(secId).style.display = 'block';
+      if(btnElem) btnElem.classList.add('active');
+
+      const nombres = {
+        'sec1': 'Registro de Nuevo Cliente / Caso',
+        'sec2': 'Abono de Honorarios',
+        'sec3': 'Control de Procesos (Expedientes & Juzgados)',
+        'sec5': 'Control de Cobros & Finanzas',
+        'sec4': 'Agenda de Audiencias Virtuales'
+      };
+      document.getElementById('panelTitle').innerText = nombres[secId] || 'Panel de Control';
+      setTimeout(() => lucide.createIcons(), 50);
+    }
+
+    document.getElementById('expedienteForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      let num = document.getElementById('expNumero').value.trim() || "En trámite";
+      
+      expedientes.push({
+        id: Date.now(),
+        numero: num,
+        cliente: document.getElementById('expCliente').value.trim(),
+        dni: document.getElementById('expDni').value.trim(),
+        tipo: document.getElementById('expTipo').value,
+        juzgado: document.getElementById('expJuzgado').value.trim(),
+        estadoProceso: document.getElementById('expEstadoProceso').value || 'En Proceso',
+        total: parseFloat(document.getElementById('expHonorarioTotal').value) || 0,
+        abonado: parseFloat(document.getElementById('expAdelantoInicial').value) || 0,
+        resumen: document.getElementById('expResumen').value.trim()
+      });
+
+      localStorage.setItem('cajo_expedientes', JSON.stringify(expedientes));
+      alert('¡Caso registrado exitosamente!');
+      this.reset();
+      actualizarData();
+    });
+
+    document.getElementById('pagoForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const expId = document.getElementById('pagoSelectExpediente').value;
+      const montoNuevo = parseFloat(document.getElementById('pagoMontoNuevo').value) || 0;
+
+      const idx = expedientes.findIndex(x => x.id == expId);
+      if (idx !== -1) {
+        expedientes[idx].abonado += montoNuevo;
+        localStorage.setItem('cajo_expedientes', JSON.stringify(expedientes));
+        alert('¡Abono registrado!');
+        this.reset();
+        actualizarData();
+      }
+    });
+
+    function calcularDeudaCliente() {
+      const expId = document.getElementById('pagoSelectExpediente').value;
+      const item = expedientes.find(x => x.id == expId);
+      if (item) {
+        const saldo = item.total - item.abonado;
+        document.getElementById('pagoMontoPactado').value = 'S/ ' + item.total.toFixed(2);
+        document.getElementById('pagoMontoAbonado').value = 'S/ ' + item.abonado.toFixed(2);
+        document.getElementById('pagoSaldoPendiente').value = 'S/ ' + (saldo > 0 ? saldo.toFixed(2) : '0.00 (CANCELADO)');
+      }
+    }
+
+    function cambiarEstadoDirecto(id, nuevoEstado, elem) {
+      const idx = expedientes.findIndex(x => x.id == id);
+      if (idx !== -1) {
+        expedientes[idx].estadoProceso = nuevoEstado;
+        localStorage.setItem('cajo_expedientes', JSON.stringify(expedientes));
+        elem.className = 'select-estado-directo ' + getClaseEstado(nuevoEstado);
+      }
+    }
+
+    function getClaseEstado(est) {
+      switch(est) {
+        case 'Iniciado': return 'st-iniciado';
+        case 'En Proceso': return 'st-proceso';
+        case 'Finalizado': return 'st-finalizado';
+        case 'Cobrado': return 'st-cobrado';
+        default: return 'st-proceso';
+      }
+    }
+
+    function abrirEdicionModal(id) {
+      const item = expedientes.find(x => x.id == id);
+      if (!item) return;
+
+      document.getElementById('editId').value = item.id;
+      document.getElementById('editNumero').value = item.numero;
+      document.getElementById('editCliente').value = item.cliente;
+      document.getElementById('editDni').value = item.dni || '';
+      document.getElementById('editTipo').value = item.tipo;
+      document.getElementById('editJuzgado').value = item.juzgado || '';
+      document.getElementById('editEstadoProceso').value = item.estadoProceso || 'En Proceso';
+      document.getElementById('editTotal').value = item.total;
+      document.getElementById('editAbonado').value = item.abonado;
+      document.getElementById('editResumen').value = item.resumen || '';
+
+      document.getElementById('editModal').style.display = 'flex';
+      setTimeout(() => lucide.createIcons(), 50);
+    }
+
+    function cerrarModal() {
+      document.getElementById('editModal').style.display = 'none';
+    }
+
+    document.getElementById('editForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const id = document.getElementById('editId').value;
+      const idx = expedientes.findIndex(x => x.id == id);
+
+      if (idx !== -1) {
+        expedientes[idx].numero = document.getElementById('editNumero').value.trim() || 'En trámite';
+        expedientes[idx].cliente = document.getElementById('editCliente').value.trim();
+        expedientes[idx].dni = document.getElementById('editDni').value.trim();
+        expedientes[idx].tipo = document.getElementById('editTipo').value;
+        expedientes[idx].juzgado = document.getElementById('editJuzgado').value.trim();
+        expedientes[idx].estadoProceso = document.getElementById('editEstadoProceso').value;
+        expedientes[idx].total = parseFloat(document.getElementById('editTotal').value) || 0;
+        expedientes[idx].abonado = parseFloat(document.getElementById('editAbonado').value) || 0;
+        expedientes[idx].resumen = document.getElementById('editResumen').value.trim();
+
+        localStorage.setItem('cajo_expedientes', JSON.stringify(expedientes));
+        alert('¡Datos actualizados!');
+        cerrarModal();
+        actualizarData();
+      }
+    });
+
+    function eliminarExpediente(id) {
+      if (confirm('¿Estás seguro de eliminar este registro?')) {
+        expedientes = expedientes.filter(x => x.id != id);
+        localStorage.setItem('cajo_expedientes', JSON.stringify(expedientes));
+        actualizarData();
+      }
+    }
+
+    document.getElementById('audienciaForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const expId = document.getElementById('audSelectExpediente').value;
+      const item = expedientes.find(x => x.id == expId);
+      const expTexto = item ? `${item.cliente} (${item.numero})` : 'Cliente no especificado';
+
+      audiencias.push({
+        id: Date.now(),
+        expediente: expTexto,
+        fecha: document.getElementById('audFecha').value,
+        hora: document.getElementById('audHora').value,
+        tipo: document.getElementById('audTipo').value,
+        link: document.getElementById('audLink').value
+      });
+
+      localStorage.setItem('cajo_audiencias', JSON.stringify(audiencias));
+      alert('¡Audiencia agendada exitosamente!');
+      this.reset();
+      renderAudiencias();
+    });
+
+    function eliminarAudiencia(id) {
+      if (confirm('¿Deseas eliminar esta audiencia agendada?')) {
+        audiencias = audiencias.filter(a => a.id != id);
+        localStorage.setItem('cajo_audiencias', JSON.stringify(audiencias));
+        renderAudiencias();
+      }
+    }
+
+    function actualizarData() {
+      renderSelects();
+      renderTablaProcesos();
+      renderTablaCobros();
+      renderAudiencias();
+    }
+
+    function renderSelects() {
+      const selPago = document.getElementById('pagoSelectExpediente');
+      const selAud = document.getElementById('audSelectExpediente');
+
+      selPago.innerHTML = '<option value="">-- Selecciona un caso activo --</option>';
+      selAud.innerHTML = '<option value="">-- Selecciona un cliente registrado --</option>';
+
+      expedientes.forEach((e, idx) => {
+        const optPago = document.createElement('option');
+        optPago.value = e.id;
+        optPago.innerText = `${idx + 1}. ${e.cliente} (${e.numero}) - ${e.tipo}`;
+        selPago.appendChild(optPago);
+
+        const optAud = document.createElement('option');
+        optAud.value = e.id;
+        optAud.innerText = `${idx + 1}. ${e.cliente} - Exp: ${e.numero} (${e.tipo})`;
+        selAud.appendChild(optAud);
+      });
+    }
+
+    function renderTablaProcesos() {
+      const tbody = document.getElementById('tablaProcesosCuerpo');
+      tbody.innerHTML = '';
+
+      if (expedientes.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="8" style="text-align: center;">No hay casos registrados.</td></tr>';
+        return;
+      }
+
+      expedientes.forEach((x, index) => {
+        const estActual = x.estadoProceso || 'En Proceso';
+        const claseColor = getClaseEstado(estActual);
+
+        const tr = document.createElement('tr');
+        tr.className = 'fila-proc';
+        tr.innerHTML = `
+          <td style="text-align: center; font-weight: 800; color: var(--sidebar-card);">${index + 1}</td>
+          <td><strong>${x.numero}</strong></td>
+          <td><strong>${x.cliente}</strong></td>
+          <td>${x.tipo}</td>
+          <td><strong>${x.juzgado || 'Por asignar'}</strong></td>
+          <td><div class="nota-caso-box">${x.resumen || '<span style="color:#94a3b8; font-weight:normal;">Sin detalles registrados</span>'}</div></td>
+          <td style="text-align: center;">
+            <select class="select-estado-directo ${claseColor}" onchange="cambiarEstadoDirecto(${x.id}, this.value, this)">
+              <option value="Iniciado" ${estActual === 'Iniciado' ? 'selected' : ''}>🟡 Iniciado</option>
+              <option value="En Proceso" ${estActual === 'En Proceso' ? 'selected' : ''}>🔵 En Proceso</option>
+              <option value="Finalizado" ${estActual === 'Finalizado' ? 'selected' : ''}>🟢 Finalizado</option>
+              <option value="Cobrado" ${estActual === 'Cobrado' ? 'selected' : ''}>🟣 Cobrado</option>
+            </select>
+          </td>
+          <td style="text-align: center;" class="no-print">
+            <button class="btn-edit-case" onclick="abrirEdicionModal(${x.id})">
+              <i data-lucide="pencil" size="12"></i> Editar
+            </button>
+            <button class="btn-delete-case" onclick="eliminarExpediente(${x.id})">✕</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+      setTimeout(() => lucide.createIcons(), 50);
+    }
+
+    function renderTablaCobros() {
+      const tbody = document.getElementById('tablaCobrosCuerpo');
+      const tfoot = document.getElementById('tablaCobrosPie');
+      tbody.innerHTML = '';
+      tfoot.innerHTML = '';
+
+      let sumP = 0, sumR = 0, sumD = 0;
+
+      if (expedientes.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="9" style="text-align: center;">No hay casos registrados.</td></tr>';
+      }
+
+      expedientes.forEach((x, index) => {
+        const deuda = x.total - x.abonado;
+        sumP += x.total;
+        sumR += x.abonado;
+        if (deuda > 0) sumD += deuda;
+
+        const pagado = (x.total > 0 && deuda <= 0);
+        const tr = document.createElement('tr');
+        tr.className = 'fila-cobro';
+        tr.innerHTML = `
+          <td style="text-align: center; font-weight: 800; color: var(--sidebar-card);">${index + 1}</td>
+          <td><strong>${x.numero}</strong></td>
+          <td><strong>${x.cliente}</strong></td>
+          <td>${x.tipo}</td>
+          <td style="text-align: right;">S/ ${x.total.toFixed(2)}</td>
+          <td style="text-align: right; color:#047857; font-weight:800;">S/ ${x.abonado.toFixed(2)}</td>
+          <td style="text-align: right; color:${pagado ? '#047857' : '#dc2626'}; font-weight:800;">
+            S/ ${deuda > 0 ? deuda.toFixed(2) : '0.00'}
+          </td>
+          <td style="text-align: center;">
+            <span class="${pagado ? 'badge-pagado' : 'badge-deuda'}">${pagado ? 'CANCELADO' : 'PENDIENTE'}</span>
+          </td>
+          <td style="text-align: center;" class="no-print">
+            <button class="btn-edit-case" onclick="abrirEdicionModal(${x.id})">
+              <i data-lucide="pencil" size="12"></i> Editar
+            </button>
+            <button class="btn-delete-case" onclick="eliminarExpediente(${x.id})">✕</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      if (expedientes.length > 0) {
+        tfoot.innerHTML = `
+          <tr>
+            <td colspan="4" style="text-align: right; letter-spacing: 1px; color: var(--accent-gold);">TOTAL GENERAL:</td>
+            <td style="text-align: right; color: var(--accent-gold);">S/ ${sumP.toFixed(2)}</td>
+            <td style="text-align: right; color: #4ade80;">S/ ${sumR.toFixed(2)}</td>
+            <td style="text-align: right; color: #f87171;">S/ ${sumD.toFixed(2)}</td>
+            <td colspan="2"></td>
+          </tr>
+        `;
+      }
+
+      document.getElementById('kpiPactado').innerText = 'S/ ' + sumP.toFixed(2);
+      document.getElementById('kpiRecaudado').innerText = 'S/ ' + sumR.toFixed(2);
+      document.getElementById('kpiPendiente').innerText = 'S/ ' + sumD.toFixed(2);
+      document.getElementById('kpiCasos').innerText = expedientes.length;
+      setTimeout(() => lucide.createIcons(), 50);
+    }
+
+    function renderAudiencias() {
+      const tbody = document.getElementById('tablaAudienciasCuerpo');
+      tbody.innerHTML = '';
+
+      if (audiencias.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align: center;">No hay audiencias agendadas.</td></tr>';
+        return;
+      }
+
+      audiencias.forEach((a, index) => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td style="text-align: center; font-weight: 800; color: var(--sidebar-card);">${index + 1}</td>
+          <td><strong>${a.fecha}</strong> (${a.hora})</td>
+          <td><strong>${a.expediente}</strong></td>
+          <td>${a.tipo || 'Audiencia'}</td>
+          <td style="text-align: center;">
+            ${a.link ? `<a href="${a.link}" target="_blank" style="background:var(--sidebar-dark); color:var(--accent-gold); border:1px solid var(--accent-gold); padding:5px 10px; border-radius:6px; text-decoration:none; font-weight:bold; font-size:0.85rem; display:inline-flex; align-items:center; gap:4px;"><i data-lucide="video" size="14"></i> Entrar a Meet</a>` : '<span style="color:#999;">Presencial</span>'}
+          </td>
+          <td style="text-align: center;" class="no-print">
+            <button class="btn-delete-case" onclick="eliminarAudiencia(${a.id})">✕</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+      setTimeout(() => lucide.createIcons(), 50);
+    }
+
+    function filtrarProcesos() {
+      const q = document.getElementById('buscarProcesos').value.toLowerCase();
+      document.querySelectorAll('.fila-proc').forEach(f => {
+        f.style.display = f.innerText.toLowerCase().includes(q) ? '' : 'none';
+      });
+    }
+
+    function filtrarCobros() {
+      const q = document.getElementById('buscarCobros').value.toLowerCase();
+      document.querySelectorAll('.fila-cobro').forEach(f => {
+        f.style.display = f.innerText.toLowerCase().includes(q) ? '' : 'none';
+      });
+    }
+
+    function descargarReporteProcesosPDF() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF('landscape');
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(16);
+      doc.setTextColor(7, 30, 61);
+      doc.text("CAJO & ASOCIADOS | Estudio Juridico", 14, 15);
+
+      doc.autoTable({
+        html: '#tablaProcesosReporte',
+        startY: 28,
+        theme: 'grid',
+        styles: { fontSize: 8, cellPadding: 3, valign: 'middle' },
+        headStyles: { fillColor: [7, 30, 61], textColor: [230, 197, 148], fontStyle: 'bold' }
+      });
+
+      doc.save(`Reporte_Procesos_CAJO_${new Date().toISOString().slice(0, 10)}.pdf`);
+    }
+
+    function descargarReporteCobrosPDF() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF('landscape');
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(16);
+      doc.setTextColor(7, 30, 61);
+      doc.text("CAJO & ASOCIADOS | Estudio Juridico", 14, 15);
+
+      doc.autoTable({
+        html: '#tablaCobrosReporte',
+        startY: 28,
+        theme: 'grid',
+        styles: { fontSize: 8, cellPadding: 3, valign: 'middle' },
+        headStyles: { fillColor: [7, 30, 61], textColor: [230, 197, 148], fontStyle: 'bold' }
+      });
+
+      doc.save(`Reporte_Finanzas_CAJO_${new Date().toISOString().slice(0, 10)}.pdf`);
+    }
+  </script>
+</body>
+</html>
